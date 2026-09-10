@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Cherry Club</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="confetti"></canvas>
+<div id="app">
+
+  <!-- WELCOME (first run) -->
+  <section class="screen" id="screen-welcome">
+    <div class="card centre">
+      <div class="big-emoji">🍒🎀🐰</div>
+      <h1>Welcome to Cherry Club</h1>
+      <p>Collect cherries, earn plushies, dress them in bows. What's your name?</p>
+      <input id="name-input" class="text-input" maxlength="14" placeholder="Your name" autocomplete="off">
+      <button class="btn primary big" id="btn-start">Join the club 🍒</button>
+    </div>
+  </section>
+
+  <!-- HOME -->
+  <section class="screen" id="screen-home">
+    <header class="topbar">
+      <div class="hello">Hi <span id="home-name"></span> 🎀</div>
+      <div class="gems" title="Cherries"><span>🍒</span> <b id="home-gems">0</b></div>
+    </header>
+    <div class="doll-home">
+      <div id="home-mascot" class="mascot"></div>
+      <div class="speech-bubble" id="home-bubble">Which table shall we work on?</div>
+    </div>
+    <div class="realms" id="realm-list"></div>
+    <div class="home-actions">
+      <button class="btn secondary" id="btn-wardrobe">🧸 My Shelf</button>
+      <button class="btn secondary" id="btn-sprint">⚡ Cherry Dash</button>
+    </div>
+    <footer class="footer">
+      <button class="link" id="btn-grownups">Grown-ups' corner</button>
+    </footer>
+  </section>
+
+  <!-- PLAY -->
+  <section class="screen" id="screen-play">
+    <header class="topbar">
+      <button class="btn icon" id="btn-quit" title="Back home">🏠</button>
+      <div class="progress"><div class="progress-bar" id="play-progress"></div></div>
+      <div class="gems"><span>🍒</span> <b id="play-gems">0</b></div>
+    </header>
+    <div class="sprint-bar-wrap" id="sprint-bar-wrap" hidden><div class="sprint-bar" id="sprint-bar"></div></div>
+    <div class="question-card" id="question-card">
+      <div class="q-realm" id="q-realm"></div>
+      <div class="q-text" id="q-text"></div>
+      <button class="btn icon speak" id="btn-speak" title="Read it to me">🔊</button>
+      <div class="model" id="model"></div>
+      <div class="choices" id="choices"></div>
+      <div class="answer-row" id="answer-row">
+        <div class="answer-box" id="answer-box"><span id="answer-text"></span><span class="caret"></span></div>
+        <button class="btn hint" id="btn-hint">💡 Show me a trick</button>
+      </div>
+      <div class="keypad" id="keypad">
+        <button data-k="1">1</button><button data-k="2">2</button><button data-k="3">3</button>
+        <button data-k="4">4</button><button data-k="5">5</button><button data-k="6">6</button>
+        <button data-k="7">7</button><button data-k="8">8</button><button data-k="9">9</button>
+        <button data-k="del" class="del">⌫</button><button data-k="0">0</button><button data-k="go" class="go">✓</button>
+      </div>
+    </div>
+    <div class="feedback" id="feedback" hidden>
+      <div class="fb-emoji" id="fb-emoji"></div>
+      <div class="fb-text" id="fb-text"></div>
+      <div class="fb-model" id="fb-model"></div>
+      <button class="btn primary big" id="btn-next">Next ➜</button>
+    </div>
+  </section>
+
+  <!-- SUMMARY -->
+  <section class="screen" id="screen-summary">
+    <div class="card centre">
+      <div class="big-emoji" id="sum-emoji">🍒</div>
+      <h1 id="sum-title">Session complete!</h1>
+      <p class="sum-line">You earned <b id="sum-gems">0</b> 🍒</p>
+      <p class="sum-line" id="sum-facts"></p>
+      <div class="bloom-list" id="sum-bloom"></div>
+      <p class="sum-line soft" id="sum-practise"></p>
+      <div class="row">
+        <button class="btn primary" id="btn-again">Again 🍒</button>
+        <button class="btn secondary" id="btn-sum-wardrobe">🧸 My Shelf</button>
+        <button class="btn secondary" id="btn-sum-home">🏠 Home</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SHELF / SHOP -->
+  <section class="screen" id="screen-wardrobe">
+    <header class="topbar">
+      <button class="btn icon" id="btn-wardrobe-home">🏠</button>
+      <h2>🧸 My Shelf</h2>
+      <div class="gems"><span>🍒</span> <b id="ward-gems">0</b></div>
+    </header>
+    <div class="wardrobe">
+      <div id="shelf" class="shelf"></div>
+      <p class="small centre" id="shelf-hint">Tap a plushie on the shelf to give it a bow.</p>
+      <div class="ward-tabs" id="ward-tabs"></div>
+      <div class="ward-items" id="ward-items"></div>
+    </div>
+  </section>
+
+  <!-- PIN GATE -->
+  <section class="screen" id="screen-pin">
+    <div class="card centre pin-card">
+      <div class="big-emoji">🔒</div>
+      <h2>Grown-ups only</h2>
+      <p class="small">Enter the 4-digit code.</p>
+      <div class="pin-dots" id="pin-dots"><span></span><span></span><span></span><span></span></div>
+      <div class="pin-msg" id="pin-msg">&nbsp;</div>
+      <div class="keypad pin-pad" id="pin-pad">
+        <button data-k="1">1</button><button data-k="2">2</button><button data-k="3">3</button>
+        <button data-k="4">4</button><button data-k="5">5</button><button data-k="6">6</button>
+        <button data-k="7">7</button><button data-k="8">8</button><button data-k="9">9</button>
+        <button data-k="del" class="del">⌫</button><button data-k="0">0</button><button data-k="back" class="back">🏠</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GROWN-UPS -->
+  <section class="screen" id="screen-grownups">
+    <header class="topbar">
+      <button class="btn icon" id="btn-grownups-home">🏠</button>
+      <h2>Grown-ups' corner</h2>
+      <span></span>
+    </header>
+    <div class="grownups">
+      <p class="small">Each square is one fact. Colour shows how secure it is: from <span class="chip b0">new</span> <span class="chip b1">learning</span> <span class="chip b2">getting there</span> <span class="chip b3">nearly fluent</span> to <span class="chip b4">fluent</span>. A fact becomes fluent when answered correctly, without a hint, within 6 seconds (the Multiplication Tables Check standard). Wrong answers move a fact back a step and bring it around again sooner.</p>
+      <div id="fact-grid"></div>
+      <div id="stats" class="small"></div>
+      <h3>Settings</h3>
+      <label class="toggle"><input type="checkbox" id="set-sound"> Sounds</label>
+      <label class="toggle"><input type="checkbox" id="set-speak"> Read word problems aloud</label>
+      <label class="toggle">Name: <input id="set-name" class="text-input inline" maxlength="14"></label>
+      <div class="row">
+        <button class="btn secondary" id="btn-export">Copy progress (JSON)</button>
+        <button class="btn danger" id="btn-reset">Reset all progress</button>
+      </div>
+      <h3>How this game teaches</h3>
+      <ul class="small">
+        <li><b>Derived-fact strategies, with the working shown:</b> ×3 is double plus one more, ×4 is double-double, ×6 is five lots plus one, ×7 is five lots plus two lots, ×12 is ten lots plus two lots. This builds the habit of showing working that her report asks for.</li>
+        <li><b>Area model:</b> every fact can be seen as a rectangle of squares, linking tables to area.</li>
+        <li><b>Spaced retrieval:</b> facts are scheduled to come back after growing gaps; wobbly facts return sooner.</li>
+        <li><b>Applying, not just recalling:</b> secure facts return as division, missing numbers, area, durations in minutes, days and weeks, months and years, dozens, litres, money and equivalent fractions.</li>
+        <li><b>Mistakes are teaching moments:</b> a wrong answer shows the trick, offers one more go, and the fact returns later in the same session.</li>
+        <li><b>Speed is a choice:</b> quests are untimed; Cherry Dash is a 60-second challenge with a personal best.</li>
+      </ul>
+    </div>
+  </section>
+
+</div>
+<script src="plush.js"></script>
+<script src="game.js"></script>
+</body>
+</html>
